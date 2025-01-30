@@ -1,0 +1,30 @@
+cp .env.example .env
+php artisan key:generate
+php artisan horizon:install
+php artisan telescope:install
+php artisan storage:link
+
+php artisan migrate:fresh --seed
+
+yarn install
+yarn run dev
+
+
+php artisan tinker
+PrepareNewsletterSubscriptionEmail::dispatch();
+
+php artisan horizon
+php artisan test
+
+./vendor/bin/pint --verbose --test
+
+php artisan vendor:publish --provider="Spatie\Backup\BackupServiceProvider"
+php artisan backup:run
+
+php artisan db:seed --class=DevDatabaseSeeder
+
+php artisan package:discover
+
+php artisan migrate:fresh --seed
+
+php artisan route:list --path=api

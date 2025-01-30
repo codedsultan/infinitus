@@ -1,0 +1,50 @@
+<% require "dotenv"; Dotenv.load(".env") %>
+
+# Name of your application. Used to uniquely configure containers.
+service: infinitus
+
+# Name of the container image.
+image: codedsultan/infinitus
+
+# Deploy to these servers.
+servers:
+  web:
+    - 00.000.000.000
+
+proxy:
+  app_port: 8080
+  ssl: true
+  host: infinitus.vecitechnologies.net
+
+# Credentials for your image host.
+registry:
+  username: codedsultan
+
+  # Always use an access token rather than real password (pulled from .SULTAN/secrets).
+  password:
+    - SULTAN_REGISTRY_PASSWORD
+
+builder:
+  arch: amd64
+
+env:
+  clear:
+    APP_NAME: "Laravel blog"
+    APP_ENV: "production"
+    APP_DEBUG: false
+    APP_URL: "https://infinitus.vecitechnologies.net"
+    ASSET_URL: "https://infinitus.vecitechnologies.net"
+    DB_CONNECTION: "sqlite"
+    DB_DATABASE: "/var/www/html/data/production_infinitus.sqlite3"
+    MAIL_MAILER: "log"
+    SESSION_DRIVER: "file"
+    CACHE_STORE: "file"
+  secret:
+    - APP_KEY
+
+volumes:
+  - "data:/var/www/html/data"
+
+aliases:
+  console: app exec --reuse -i "bash"
+  tinker: app exec --reuse -i "php artisan tinker"
